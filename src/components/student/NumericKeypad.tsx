@@ -12,7 +12,11 @@ const NumericKeypad = ({ onSubmit, loading, error }: NumericKeypadProps) => {
 
   const handleDigit = (digit: string) => {
     if (pin.length < 4) {
-      setPin(prev => prev + digit);
+      const newPin = pin + digit;
+      setPin(newPin);
+      if (newPin.length === 4) {
+        onSubmit(newPin);
+      }
     }
   };
 
