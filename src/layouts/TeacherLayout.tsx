@@ -1,11 +1,12 @@
 import { ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { Users, FileText, BarChart3, LogOut, GraduationCap } from "lucide-react";
+import { Users, FileText, BarChart3, LogOut, GraduationCap, Link2 } from "lucide-react";
 
 const navItems = [
   { to: "/professor", icon: Users, label: "Alunos" },
   { to: "/professor/provas", icon: FileText, label: "Provas" },
+  { to: "/professor/atribuicoes", icon: Link2, label: "Atribuições" },
   { to: "/professor/resultados", icon: BarChart3, label: "Resultados" },
 ];
 
@@ -27,7 +28,7 @@ const TeacherLayout = ({ children }: { children: ReactNode }) => {
           <div className="w-10 h-10 rounded-lg bg-sidebar-primary flex items-center justify-center">
             <GraduationCap className="w-5 h-5 text-sidebar-primary-foreground" />
           </div>
-          <span className="font-display font-bold text-lg">EduAccess</span>
+          <span className="font-display font-bold text-lg">CiênciEdu</span>
         </div>
 
         <nav className="flex-1 p-4 space-y-1">
