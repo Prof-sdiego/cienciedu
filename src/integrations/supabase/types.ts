@@ -125,7 +125,7 @@ export type Database = {
       }
       questions: {
         Row: {
-          audio_url: string
+          audio_url: string | null
           created_at: string
           exam_id: string
           id: string
@@ -133,7 +133,7 @@ export type Database = {
           statement: string | null
         }
         Insert: {
-          audio_url: string
+          audio_url?: string | null
           created_at?: string
           exam_id: string
           id?: string
@@ -141,7 +141,7 @@ export type Database = {
           statement?: string | null
         }
         Update: {
-          audio_url?: string
+          audio_url?: string | null
           created_at?: string
           exam_id?: string
           id?: string
