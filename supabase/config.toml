@@ -1,0 +1,7 @@
+project_id = "ugyzxhmrnxhlmznuygtv"
+
+[functions.submit-exam]
+verify_jwt = false
+
+[functions.student-api]
+verify_jwt = false
