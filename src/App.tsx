@@ -12,6 +12,7 @@ import TeacherLogin from "./pages/teacher/Login";
 import TeacherStudents from "./pages/teacher/Students";
 import TeacherExams from "./pages/teacher/Exams";
 import TeacherResults from "./pages/teacher/Results";
+import ExamAssignments from "./pages/teacher/ExamAssignments";
 import StudentPinEntry from "./pages/student/PinEntry";
 import StudentExamList from "./pages/student/ExamList";
 import StudentExam from "./pages/student/Exam";
@@ -47,6 +48,7 @@ const App = () => (
               <Route path="/professor/login" element={<TeacherLogin />} />
               <Route path="/professor" element={<ProtectedRoute><TeacherStudents /></ProtectedRoute>} />
               <Route path="/professor/provas" element={<ProtectedRoute><TeacherExams /></ProtectedRoute>} />
+              <Route path="/professor/atribuicoes" element={<ProtectedRoute><ExamAssignments /></ProtectedRoute>} />
               <Route path="/professor/resultados" element={<ProtectedRoute><TeacherResults /></ProtectedRoute>} />
 
               {/* Student routes */}

@@ -41,8 +41,7 @@ serve(async (req) => {
 
     if (action === "get-exams") {
       const { studentId } = await req.json();
-      
-      // Get student's teacher
+
       const { data: student } = await supabase
         .from("students")
         .select("teacher_id")
@@ -56,11 +55,31 @@ serve(async (req) => {
         });
       }
 
-      const { data: exams } = await supabase
-        .from("exams")
-        .select("id, title")
-        .eq("teacher_id", student.teacher_id)
-        .order("created_at", { ascending: false });
+      // Check if there are any assignments for this student
+      const { data: assignments } = await supabase
+        .from("student_exam_assignments")
+        .select("exam_id")
+        .eq("student_id", studentId);
+
+      let exams;
+      if (assignments && assignments.length > 0) {
+        // Student has specific assignments - only show those
+        const examIds = assignments.map(a => a.exam_id);
+        const { data } = await supabase
+          .from("exams")
+          .select("id, title")
+          .in("id", examIds)
+          .order("created_at", { ascending: false });
+        exams = data;
+      } else {
+        // No assignments - show all teacher exams
+        const { data } = await supabase
+          .from("exams")
+          .select("id, title")
+          .eq("teacher_id", student.teacher_id)
+          .order("created_at", { ascending: false });
+        exams = data;
+      }
 
       return new Response(JSON.stringify({ exams: exams || [] }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -70,9 +89,16 @@ serve(async (req) => {
     if (action === "get-questions") {
       const { examId } = await req.json();
 
+      // Get exam to check shuffle setting
+      const { data: exam } = await supabase
+        .from("exams")
+        .select("shuffle_questions")
+        .eq("id", examId)
+        .single();
+
       const { data: questions } = await supabase
         .from("questions")
-        .select("id, audio_url, order_index")
+        .select("id, audio_url, statement, order_index")
         .eq("exam_id", examId)
         .order("order_index");
 
@@ -86,7 +112,13 @@ serve(async (req) => {
         result.push({ ...q, options: options || [] });
       }
 
-      return new Response(JSON.stringify({ questions: result }), {
+      // Shuffle questions if enabled
+      let finalResult = result;
+      if (exam?.shuffle_questions) {
+        finalResult = [...result].sort(() => Math.random() - 0.5);
+      }
+
+      return new Response(JSON.stringify({ questions: finalResult }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }

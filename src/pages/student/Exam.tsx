@@ -14,6 +14,7 @@ interface QuestionOption {
 interface Question {
   id: string;
   audio_url: string;
+  statement?: string;
   order_index: number;
   options: QuestionOption[];
 }
@@ -135,15 +136,26 @@ const StudentExam = () => {
         />
       </div>
 
+      {/* Statement */}
+      {currentQuestion.statement && (
+        <div className="bg-card rounded-2xl border-2 border-primary/20 p-6 mb-6 text-center">
+          <p className="text-xl sm:text-2xl font-display font-bold text-foreground leading-relaxed">
+            {currentQuestion.statement}
+          </p>
+        </div>
+      )}
+
       {/* Audio */}
-      <div className="flex-shrink-0 mb-8">
-        <AudioPlayer
-          key={currentQuestion.id}
-          src={currentQuestion.audio_url}
-          autoPlay={true}
-          autoPlayDelay={3000}
-        />
-      </div>
+      {currentQuestion.audio_url && (
+        <div className="flex-shrink-0 mb-8">
+          <AudioPlayer
+            key={currentQuestion.id}
+            src={currentQuestion.audio_url}
+            autoPlay={true}
+            autoPlayDelay={3000}
+          />
+        </div>
+      )}
 
       {/* Options */}
       <div className="flex-1 grid grid-cols-2 gap-6 max-w-2xl mx-auto w-full">

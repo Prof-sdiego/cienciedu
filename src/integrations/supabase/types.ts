@@ -63,18 +63,21 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          shuffle_questions: boolean
           teacher_id: string
           title: string
         }
         Insert: {
           created_at?: string
           id?: string
+          shuffle_questions?: boolean
           teacher_id: string
           title: string
         }
         Update: {
           created_at?: string
           id?: string
+          shuffle_questions?: boolean
           teacher_id?: string
           title?: string
         }
@@ -127,6 +130,7 @@ export type Database = {
           exam_id: string
           id: string
           order_index: number
+          statement: string | null
         }
         Insert: {
           audio_url: string
@@ -134,6 +138,7 @@ export type Database = {
           exam_id: string
           id?: string
           order_index?: number
+          statement?: string | null
         }
         Update: {
           audio_url?: string
@@ -141,6 +146,7 @@ export type Database = {
           exam_id?: string
           id?: string
           order_index?: number
+          statement?: string | null
         }
         Relationships: [
           {
@@ -194,6 +200,42 @@ export type Database = {
           },
           {
             foreignKeyName: "student_answers_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      student_exam_assignments: {
+        Row: {
+          assigned_at: string
+          exam_id: string
+          id: string
+          student_id: string
+        }
+        Insert: {
+          assigned_at?: string
+          exam_id: string
+          id?: string
+          student_id: string
+        }
+        Update: {
+          assigned_at?: string
+          exam_id?: string
+          id?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "student_exam_assignments_exam_id_fkey"
+            columns: ["exam_id"]
+            isOneToOne: false
+            referencedRelation: "exams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "student_exam_assignments_student_id_fkey"
             columns: ["student_id"]
             isOneToOne: false
             referencedRelation: "students"

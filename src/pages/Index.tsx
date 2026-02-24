@@ -12,7 +12,7 @@ const Index = () => {
           <GraduationCap className="w-10 h-10 text-primary-foreground" />
         </div>
         <h1 className="text-4xl sm:text-5xl font-display font-black text-foreground text-center">
-          EduAccess
+          CiênciEdu
         </h1>
         <p className="text-lg text-muted-foreground text-center max-w-md">
           Sistema educacional acessível para todos
