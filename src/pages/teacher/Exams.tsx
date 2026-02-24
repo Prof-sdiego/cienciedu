@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import QuestionManager from "@/components/teacher/QuestionManager";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import TeacherLayout from "@/layouts/TeacherLayout";
@@ -8,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Plus, Trash2, Upload, Check, Image, Volume2, Shuffle, ClipboardPaste } from "lucide-react";
+import { Plus, Trash2, Upload, Check, Image, Volume2, Shuffle, ClipboardPaste, Eye } from "lucide-react";
 import { toast } from "sonner";
 
 interface Exam {
@@ -30,6 +31,7 @@ const TeacherExams = () => {
 
   // Question creation state
   const [selectedExam, setSelectedExam] = useState<string | null>(null);
+  const [viewingExam, setViewingExam] = useState<string | null>(null);
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [statement, setStatement] = useState("");
   const [imageFiles, setImageFiles] = useState<(File | null)[]>([null, null, null, null]);
@@ -315,6 +317,14 @@ const TeacherExams = () => {
           </div>
         )}
 
+        {viewingExam && (
+          <QuestionManager
+            examId={viewingExam}
+            onClose={() => setViewingExam(null)}
+            onQuestionsChanged={loadExams}
+          />
+        )}
+
         {loading ? (
           <div className="flex justify-center py-12">
             <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
@@ -336,8 +346,11 @@ const TeacherExams = () => {
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Button variant="outline" size="sm" onClick={() => setSelectedExam(exam.id)} className="gap-1 font-display">
-                      <Plus className="w-4 h-4" /> Questão
+                    <Button variant="outline" size="sm" onClick={() => { setViewingExam(exam.id); setSelectedExam(null); }} className="gap-1 font-display">
+                      <Eye className="w-4 h-4" /> Questões
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => { setSelectedExam(exam.id); setViewingExam(null); }} className="gap-1 font-display">
+                      <Plus className="w-4 h-4" /> Adicionar
                     </Button>
                     <Button variant="ghost" size="sm" onClick={() => handleDeleteExam(exam.id)} className="text-destructive hover:text-destructive">
                       <Trash2 className="w-4 h-4" />
