@@ -59,7 +59,7 @@ const App = () => (
 
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </BrowserRouter>
+          <BrowserRouter basename="/cienciedu">
         </StudentProvider>
       </AuthProvider>
     </TooltipProvider>
