@@ -40,26 +40,23 @@ const App = () => (
       <Sonner />
       <AuthProvider>
         <StudentProvider>
-          <BrowserRouter>
+          <BrowserRouter basename="/cienciedu">
             <Routes>
               <Route path="/" element={<Index />} />
-
               {/* Teacher routes */}
               <Route path="/professor/login" element={<TeacherLogin />} />
               <Route path="/professor" element={<ProtectedRoute><TeacherStudents /></ProtectedRoute>} />
               <Route path="/professor/provas" element={<ProtectedRoute><TeacherExams /></ProtectedRoute>} />
               <Route path="/professor/atribuicoes" element={<ProtectedRoute><ExamAssignments /></ProtectedRoute>} />
               <Route path="/professor/resultados" element={<ProtectedRoute><TeacherResults /></ProtectedRoute>} />
-
               {/* Student routes */}
               <Route path="/aluno" element={<StudentPinEntry />} />
               <Route path="/aluno/provas" element={<StudentExamList />} />
               <Route path="/aluno/prova/:examId" element={<StudentExam />} />
               <Route path="/aluno/concluido" element={<StudentComplete />} />
-
               <Route path="*" element={<NotFound />} />
             </Routes>
-          <BrowserRouter basename="/cienciedu">
+          </BrowserRouter>
         </StudentProvider>
       </AuthProvider>
     </TooltipProvider>
