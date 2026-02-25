@@ -9,7 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Plus, Trash2, Upload, Check, Image, Volume2, Shuffle, ClipboardPaste, Eye } from "lucide-react";
+import { Plus, Trash2, Upload, Check, Image, Shuffle, ClipboardPaste, Eye } from "lucide-react";
+import AudioRecorder from "@/components/teacher/AudioRecorder";
 import { toast } from "sonner";
 
 interface Exam {
@@ -252,12 +253,7 @@ const TeacherExams = () => {
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label className="flex items-center gap-2">
-                  <Volume2 className="w-4 h-4" /> Áudio da pergunta (opcional)
-                </Label>
-                <Input type="file" accept="audio/*" onChange={e => setAudioFile(e.target.files?.[0] || null)} />
-              </div>
+              <AudioRecorder onRecorded={(file) => setAudioFile(file)} />
 
               <div className="space-y-2">
                 <Label>Número de alternativas</Label>

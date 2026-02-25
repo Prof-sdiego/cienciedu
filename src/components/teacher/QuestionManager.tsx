@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Trash2, Pencil, Check, Image, Volume2, ClipboardPaste, X, Upload } from "lucide-react";
+import { Trash2, Pencil, Check, Image, ClipboardPaste, X, Upload } from "lucide-react";
+import AudioRecorder from "@/components/teacher/AudioRecorder";
 import { toast } from "sonner";
 
 interface QuestionOption {
@@ -229,13 +230,11 @@ const QuestionManager = ({ examId, onClose, onQuestionsChanged }: Props) => {
                     <Textarea value={editStatement} onChange={e => setEditStatement(e.target.value)} rows={2} />
                   </div>
 
-                  <div className="space-y-2">
-                    <Label className="flex items-center gap-2">
-                      <Volume2 className="w-4 h-4" /> Áudio
-                      {q.audio_url && keepExistingAudio && <span className="text-xs text-muted-foreground">(mantendo atual)</span>}
-                    </Label>
-                    <Input type="file" accept="audio/*" onChange={e => { setEditAudioFile(e.target.files?.[0] || null); setKeepExistingAudio(false); }} />
-                  </div>
+                  <AudioRecorder
+                    onRecorded={(file) => { setEditAudioFile(file); setKeepExistingAudio(!file ? false : false); }}
+                    existingUrl={keepExistingAudio ? q.audio_url : null}
+                    onRemoveExisting={() => setKeepExistingAudio(false)}
+                  />
 
                   <div className="space-y-2">
                     <Label>Alternativas</Label>
