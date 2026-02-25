@@ -32,19 +32,3 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
-```
-
-**3. Editar dois arquivos:**
-
-No **`vite.config.ts`**, adicione dentro do `defineConfig`:
-```
-base: '/cienciedu/',
-```
-
-No **`src/App.tsx`**, troque:
-```
-<BrowserRouter>
-```
-por:
-```
-<BrowserRouter basename="/cienciedu">
